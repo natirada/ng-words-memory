@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Card } from 'src/app/shared/card.model';
 import { WordService } from 'src/app/edit/words.services';
+import { RunTime } from '../runtime.service';
 
 @Component({
   selector: 'app-play',
@@ -10,7 +11,7 @@ import { WordService } from 'src/app/edit/words.services';
 export class PlayComponent implements OnInit {
 
   @ViewChild('f') card: Element;
-  click = false;
+  firstClick = false;
   cardClickBefore: number;
   numnerOfClick = 0 ;
   cards: Card[] = [
@@ -28,7 +29,8 @@ export class PlayComponent implements OnInit {
     new Card(),
   ];
 
-  constructor(private wordservice: WordService) { }
+  constructor(private wordservice: WordService,
+              private runtime: RunTime) { }
 
   ngOnInit() {
     console.log(this.cards);
@@ -61,6 +63,10 @@ export class PlayComponent implements OnInit {
   }
 
   onClick(index: number) {
+    if (!this.firstClick) {
+      this.firstClick = true ;
+      this.runtime.clickFIrstTime();
+    }
     if(this.numnerOfClick > 1) {
       return;
     }

@@ -16,6 +16,9 @@ import { FormsModule } from '@angular/forms';
 import { PlayComponent } from './game/play/play.component';
 import { UserDetailsComponent } from './game/user-details/user-details.component';
 import { MinutesAndSecondes } from './game/user-details/minutesAndSecondes.pipe';
+import { RunTime } from './game/runtime.service';
+import { SigninComponent } from './auth/signin/signin.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 
 @NgModule({
@@ -28,7 +31,9 @@ import { MinutesAndSecondes } from './game/user-details/minutesAndSecondes.pipe'
     BackDirective,
     PlayComponent,
     UserDetailsComponent,
-    MinutesAndSecondes
+    MinutesAndSecondes,
+    SigninComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +43,7 @@ import { MinutesAndSecondes } from './game/user-details/minutesAndSecondes.pipe'
     CommonModule,
     FormsModule
   ],
-  providers: [ WordService],
+  providers: [ WordService , RunTime],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

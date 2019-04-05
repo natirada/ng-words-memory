@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { RunTime } from '../runtime.service';
 
 @Component({
   selector: 'app-user-details',
@@ -8,13 +9,19 @@ import { Component, OnInit, Input } from '@angular/core';
 export class UserDetailsComponent implements OnInit {
 
   timePast = 0 ;
-  constructor() { }
+  constructor(private firstclick: RunTime) { }
 
   ngOnInit() {
-
+    this.firstclick.clicked.subscribe(
+      (flag: boolean) => {
+          if (flag) {
+            this.statrTime();
+          }
+      }
+    );
   }
 
-  @Input() statrTime() {
+  statrTime() {
     setInterval(() => {
       this.timePast++;
     }, 1000);
