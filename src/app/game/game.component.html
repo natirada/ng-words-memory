@@ -1,9 +1,9 @@
 
   <div class="row">
       <div class="col-lg-10">
-          <app-play></app-play>
+          <app-play [scoreTime]="endTime"></app-play>
         </div>
         <div class="col-lg-2">
-          <app-user-details></app-user-details>
+          <app-user-details (timeEvent)="reciveEndTime($event)"></app-user-details>
         </div>
   </div>  

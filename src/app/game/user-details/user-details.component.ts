@@ -1,5 +1,7 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { RunTime } from '../runtime.service';
+import { WordService } from 'src/app/edit/words.services';
+import { UserData } from 'src/app/shared/userdata.model';
 
 @Component({
   selector: 'app-user-details',
@@ -8,21 +10,42 @@ import { RunTime } from '../runtime.service';
 })
 export class UserDetailsComponent implements OnInit {
 
+  @Output()  timeEvent = new EventEmitter<number> ();
+  myInterval;
+  userdetailes: UserData;
+  userName: string;
+  recordUser: number;
   timePast = 0 ;
-  constructor(private firstclick: RunTime) { }
+
+  constructor(private runTime: RunTime,
+              private userdata: WordService) { }
 
   ngOnInit() {
-    this.firstclick.clicked.subscribe(
+    this.userdetailes = this.userdata.getUserData();
+    this.userName = this.userdetailes.userName;
+    this.recordUser = this.userdetailes.recordTime;
+    this.runTime.clicked.subscribe(
       (flag: boolean) => {
           if (flag) {
             this.statrTime();
           }
       }
     );
+    this.runTime.gameOver.subscribe(
+      (flag: boolean) => {
+        if (flag) {
+          this.stopTime();
+        }
+      }
+    );
   }
 
+  stopTime() {
+    clearInterval(this.myInterval);
+    this.timeEvent.emit(this.timePast);
+  }
   statrTime() {
-    setInterval(() => {
+    this.myInterval = setInterval(() => {
       this.timePast++;
     }, 1000);
   }

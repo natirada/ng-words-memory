@@ -3,6 +3,7 @@ import { WordService } from './words.services';
 import { PairWords } from '../shared/pair-words.model';
 import { NgForm } from '@angular/forms';
 
+
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
@@ -18,6 +19,7 @@ export class EditComponent implements OnInit {
 
   ngOnInit() {
     this.pairWords = this.wordservice.getPairWords();
+    console.log(this.pairWords);
   }
 
   onSubmit(form: NgForm) {
@@ -28,6 +30,7 @@ export class EditComponent implements OnInit {
      this.pairWords[i].HEword = form.value[indexHebrewWord];
      this.wordservice.setPairWords(this.pairWords);
    }
+   this.wordservice.savedata();
   }
 
   onRemove(form: NgForm) {

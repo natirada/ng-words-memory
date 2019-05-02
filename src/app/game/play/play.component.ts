@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Card } from 'src/app/shared/card.model';
 import { WordService } from 'src/app/edit/words.services';
 import { RunTime } from '../runtime.service';
@@ -10,6 +10,7 @@ import { RunTime } from '../runtime.service';
 })
 export class PlayComponent implements OnInit {
 
+  @Input() scoreTime: number;
   @ViewChild('f') card: Element;
   firstClick = false;
   cardClickBefore: number;
@@ -92,7 +93,20 @@ export class PlayComponent implements OnInit {
       this.cards[this.cardClickBefore].matchFound = true ;
       if (this.gameOver()) {
         console.log(this.cards);
-        alert('U win!!!!!!!!!!');
+        this.runtime.stopRunTime();
+        setTimeout( () => {
+          const userdata = this.wordservice.getUserData();
+          if(userdata.recordTime === 0)
+          {
+            userdata.recordTime = this.scoreTime;
+          } else {
+            if(this.scoreTime < userdata.recordTime ) {
+              userdata.recordTime = this.scoreTime;
+            }
+          }
+          this.wordservice.savedata();
+        }, 500);
+        
       }
     }
     if (this.numnerOfClick === 2 ) {
